@@ -14,16 +14,20 @@ class DataAnalysis {
     return scatterPlotData;
   }
 
-  createDataForBarPlot(attributeX, attributeY) {
+  createDataForBarPlot(attributeX, attributeY,start=0,end=this.data.length) {
     const barPlotSeriesData = [];
     const barPlotXAxisData = [];
-    this.data.forEach((d) => {
-      barPlotSeriesData.push(d[attributeY]);
-      barPlotXAxisData.push(d[attributeX]);
-    });
+    // this.data.forEach((d) => {
+    //   barPlotSeriesData.push(d[attributeY]);
+    //   barPlotXAxisData.push(d[attributeX]);
+    // });
+    for(let i =start;i<end;i++) {
+      barPlotXAxisData.push(this.data[i][attributeX]);
+      barPlotSeriesData.push(this.data[i][attributeY]);
+    }
     return { seriesData: barPlotSeriesData, xAxisData: barPlotXAxisData };
   }
-  generateChart(type, attributeX, attributeY) {
+  generateChart(type, attributeX, attributeY,start=0,end=this.data.length) {
     let seriesData = [];
     const chartBuilder = new ChartBuilder();
     chartBuilder.setChartType(type);
@@ -34,7 +38,9 @@ class DataAnalysis {
     } else if (type === "bar") {
       const { seriesData, xAxisData } = this.createDataForBarPlot(
         attributeX,
-        attributeY
+        attributeY,
+        start,
+        end
       );
       chartBuilder
         .setXAxisType("category")
@@ -47,3 +53,5 @@ class DataAnalysis {
 }
 
 module.exports = DataAnalysis;
+
+

@@ -12,7 +12,7 @@ const uploadExcelFile = async(req,res,next) => {
         })
         const obj = await dataFile.save()
         console.log(obj)
-        return res.status(201).json({"status":201,"Response":"File uploaded"})
+        return res.status(201).json({"status":201,"Response":{"Message":"File uploaded","fileId":dataFile._id,"filePath":obj.path}})
     }
     catch(err) {
         next(err)
