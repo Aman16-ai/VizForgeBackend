@@ -3,6 +3,10 @@ const ErrorProvider = require("../Error/ErrorProvider")
 const ApiResponse = require("../utils/ApiResponse")
 const uploadExcelFile = async(req,res,next) => {
     try {
+        // const user = req.user;
+        // if(!user) {
+        //     throw new ErrorProvider(400,false,"User not found")
+        // }
         const file = req.file
         const absolute_path = file.path
         console.log(absolute_path)
