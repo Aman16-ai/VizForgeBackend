@@ -7,7 +7,7 @@ const dataFileSchema = new mongoose.Schema({
     path : {
         type:String,
         require:true
-    }
+    },
 
 },{timestamps:true})
 

@@ -35,56 +35,7 @@ const getDataTypesOfFileContent = async (req, res, next) => {
       return res.status(404).send("File not found");
     }
 
-    // // Create a new ExcelJS workbook reader
-    // const workbookStream = fs.createReadStream(filePath);
-    // let columns = [];
-    // let parsedData = [];
-    // var workBookReader = new XlsxStreamReader();
-    // workBookReader.on("error", function (error) {
-    //   throw error;
-    // });
-    // workBookReader.on("worksheet", function (workSheetReader) {
-    //   if (workSheetReader.id > 1) {
-    //     // we only want first sheet
-    //     workSheetReader.skip();
-    //     return;
-    //   }
-
-    //   function onRow(row) {
-    //     if(row.attributes.r == 2) {
-    //       workSheetReader.removeListener('row',onRow)
-    //     }
-    //     else if (row.attributes.r == 1) {
-    //       // do something with row 1 like save as column names
-    //       console.log(row.values);
-    //       columns = row.values.filter((r) => r !== "");
-    //       console.log("columns", columns);
-    //     } else {
-    //       const rowData = {};
-    //       row = row.values.filter((r) => r !== "");
-    //       row.forEach(function (rowVal, colNum) {
-    //         rowData[columns[colNum]] = rowVal;
-    //       });
-    //       parsedData.push(rowData);
-    //     }
-    //   }
-    //   workSheetReader.on("row", onRow);
-    //   workSheetReader.on("end", function () {
-    //     console.log(workSheetReader.rowCount);
-    //     // const fileDataMetaData = new FileDataMetaData(parsedData);
-    //     // const attributesWithTypes = fileDataMetaData.getAttributesWithType();
-    //     return res.status(200).json(ApiResponse(false, 500, parsedData));
-    //   });
-
-    //   // call process after registering handlers
-    //   workSheetReader.process();
-    // });
-    // workBookReader.on("end", function () {
-    //   // end of workbook reached
-    // });
-
-    // fs.createReadStream(filePath).pipe(workBookReader);
-
+   
     return res.status(200).json(ApiResponse(false, 500, attributesWithTypes));
   } catch (err) {
     next(err);

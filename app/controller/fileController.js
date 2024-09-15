@@ -1,6 +1,9 @@
 const DataFile = require("../model/DataFile")
 const ErrorProvider = require("../Error/ErrorProvider") 
 const ApiResponse = require("../utils/ApiResponse")
+const CsvService = require('../service/CsvService')
+const DataService = require('../service/DataService')
+
 const uploadExcelFile = async(req,res,next) => {
     try {
         // const user = req.user;
@@ -15,7 +18,16 @@ const uploadExcelFile = async(req,res,next) => {
             path:absolute_path
         })
         const obj = await dataFile.save()
-        console.log(obj)
+        // console.log(obj)
+        
+        // if file is a csv then we are stream the file data and save it in the db.
+        // const csvService = new CsvService()
+        // const data = await csvService.praseData(req.file.path)
+        // const dataService = new DataService()
+        // const savedData = await dataService.saveData(obj._id,data)
+        // console.log(savedData)
+
+        
         return res.status(201).json({"status":201,"Response":{"Message":"File uploaded","fileId":dataFile._id,"filePath":obj.path}})
     }
     catch(err) {

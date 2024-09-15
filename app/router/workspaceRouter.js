@@ -1,4 +1,4 @@
-const { createWorkSpace, getUserAllWorkSpaces, getWorkspaceById } = require("../controller/workspace")
+const { createWorkSpace, getUserAllWorkSpaces, getWorkspaceById, updateUserWorkspace } = require("../controller/workspace")
 const verifyTokenMiddleware = require("../middleware/AuthMiddleware")
 
 
@@ -11,4 +11,5 @@ module.exports = (app) => {
 
     app.route("/workspace/:id")
     .get(verifyTokenMiddleware,getWorkspaceById)
+    .patch(verifyTokenMiddleware,updateUserWorkspace)
 }
