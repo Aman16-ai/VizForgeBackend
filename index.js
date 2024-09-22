@@ -15,7 +15,7 @@ router(app)
 
 app.get("/",(req,res,next) => {
     try {
-        return res.status(200).json({"Message":"Welcome to vizforge"})
+        return res.status(200).json({"Message":"Welcome to vizforge proto-v2"})
     }
     catch(err) {
         next(err)

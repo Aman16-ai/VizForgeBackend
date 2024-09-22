@@ -8,32 +8,21 @@ const fs = require("fs");
 const ErrorProvider = require("../Error/ErrorProvider");
 const XlsxStreamReader = require("xlsx-stream-reader");
 const convertor = require("../utils/TypeConvertor");
-// get the file id from client converting the file into json and checking the data manully
-// controller 2 generating the graphs
-// data[0] = {
-//   'S.No.': 15,
-//   'Student Name': 'Mehul Pandey',
-//   'Roll No': 2015602719,
-//   'Company Name': 'Infosys (HackwithInfy)',
-//   'Salary Package\r\n(LPA)': 8
-// },
+
+const FirebaseFileLoader = require('../service/File/FirebaseFileLoader')
+const FireBaseStorageService = require("../service/File/index")
 const getDataTypesOfFileContent = async (req, res, next) => {
   try {
     const fileId = req.params.fileId;
     const file = await DataFile.findById(fileId);
-    const fileLoader = new FileLoader(file.path)
+
+    const fileBuffer = await new FireBaseStorageService().getFileBuffer(file.path)
+    const fileLoader = new FirebaseFileLoader(file.path,fileBuffer)
     const jsonConvert = new FileToJsonConvert(fileLoader)
     const data = jsonConvert.convertToJson(0)
-    // console.log(data)
     const fileDataMetaData = new FileDataMetaData(data)
     const attributesWithTypes = fileDataMetaData.getAttributesWithType()
 
-    // approach two
-    const filePath = file.path;
-    console.log("file path ", file.path);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).send("File not found");
-    }
 
    
     return res.status(200).json(ApiResponse(false, 500, attributesWithTypes));
@@ -46,7 +35,8 @@ const createChart = async (req, res, next) => {
   try {
     const fileId = req.body.fileId;
     const file = await DataFile.findById(fileId);
-    const fileLoader = new FileLoader(file.path);
+    const buffer = await new FireBaseStorageService().getFileBuffer(file.path)
+    const fileLoader = new FirebaseFileLoader(file.path,buffer);
     const jsonConvert = new FileToJsonConvert(fileLoader);
     const data = jsonConvert.convertToJson(0);
 

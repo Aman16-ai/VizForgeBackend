@@ -10,8 +10,10 @@ const uploadExcelFile = async(req,res,next) => {
         // if(!user) {
         //     throw new ErrorProvider(400,false,"User not found")
         // }
+        console.log(req.firebaseFileUrl)
         const file = req.file
-        const absolute_path = file.path
+        // const absolute_path = file.path
+        const absolute_path = req.firebaseFileUrl
         console.log(absolute_path)
         const dataFile = new DataFile({
             name:file.originalname,
