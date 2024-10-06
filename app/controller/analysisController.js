@@ -42,6 +42,8 @@ const createChart = async (req, res, next) => {
 
     const chartType = req.body.type;
     const attributeX = req.body.attributeX;
+    const aggregationX = req.body.aggregationX;
+    const aggregationY = req.body.aggregationY;
     const attributeY = req.body.attributeY;
     const startRange = req.body.start
     const endRange = req.body.end
@@ -50,6 +52,8 @@ const createChart = async (req, res, next) => {
       chartType, 
       attributeX, 
       attributeY,
+      aggregationX,
+      aggregationY,
       startRange,
       endRange
     );

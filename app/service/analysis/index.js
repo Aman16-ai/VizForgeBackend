@@ -14,20 +14,69 @@ class DataAnalysis {
     return scatterPlotData;
   }
 
-  createDataForBarPlot(attributeX, attributeY,start=0,end=this.data.length) {
-    const barPlotSeriesData = [];
-    const barPlotXAxisData = [];
-    // this.data.forEach((d) => {
-    //   barPlotSeriesData.push(d[attributeY]);
-    //   barPlotXAxisData.push(d[attributeX]);
-    // });
-    for(let i =start;i<end;i++) {
-      barPlotXAxisData.push(this.data[i][attributeX]);
-      barPlotSeriesData.push(this.data[i][attributeY]);
+  createDataForBarPlot(
+    attributeX,
+    attributeY,
+    aggregationX = "value",
+    aggregationY = "sum",
+    start = 0,
+    end = this.data.length
+  ) {
+    const mp = new Map();
+  
+    // Aggregate the data
+    for (let i = start; i < end; i++) {
+      let x = this.data[i][attributeX];
+      let y = this.data[i][attributeY];
+  
+      if (aggregationX === "value") {
+        if (!mp.has(x)) {
+          if(aggregationY === 'count') {
+            mp.set(x,1)
+          }
+          else {
+            mp.set(x, y);
+          }
+        } else {
+          switch (aggregationY) {
+            case "sum":
+              mp.set(x, mp.get(x) + y);
+              break;
+            case "count":
+              mp.set(x, mp.get(x) + 1);
+              break;
+            case "max":
+              mp.set(x, Math.max(mp.get(x), y));
+              break;
+            case "min":
+              mp.set(x, Math.min(mp.get(x), y));
+              break;
+            default:
+              mp.set(x, mp.get(x) + y);
+          }
+        }
+      }
     }
+  
+    // Convert Map to arrays for plotting
+    const barPlotXAxisData = [];
+    const barPlotSeriesData = [];
+    for (let [key, value] of mp) {
+      barPlotXAxisData.push(key);
+      barPlotSeriesData.push(value);
+    }
+  
     return { seriesData: barPlotSeriesData, xAxisData: barPlotXAxisData };
   }
-  generateChart(type, attributeX, attributeY,start=0,end=this.data.length) {
+  generateChart(
+    type,
+    attributeX,
+    attributeY,
+    aggregationX = "value",
+    aggregationY = "sum",
+    start = 0,
+    end = this.data.length
+  ) {
     let seriesData = [];
     const chartBuilder = new ChartBuilder();
     chartBuilder.setChartType(type);
@@ -39,19 +88,20 @@ class DataAnalysis {
       const { seriesData, xAxisData } = this.createDataForBarPlot(
         attributeX,
         attributeY,
+        aggregationX,
+        aggregationY,
         start,
         end
       );
       chartBuilder
         .setXAxisType("category")
         .setXAxisData(xAxisData)
+        .setXAxisLabelRotation(90)
         .setSeriesData(seriesData);
     }
-    
+
     return chartBuilder.build();
   }
 }
 
 module.exports = DataAnalysis;
-
-

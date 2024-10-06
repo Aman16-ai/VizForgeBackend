@@ -1,7 +1,11 @@
 class ChartBuilder {
   constructor() {
     this.option = {
-      xAxis: {},
+      xAxis: {
+        axisLabel: {
+          rotate: 90, // Default to vertical (90 degrees)
+        },
+      },
       yAxis: {},
       series: [
         {
@@ -9,6 +13,12 @@ class ChartBuilder {
           type: "",
         },
       ],
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow",
+        },
+      },
     };
   }
 
@@ -44,6 +54,21 @@ class ChartBuilder {
     return this;
   }
 
+  setXAxisLabelRotation(angle) {
+    this.option.xAxis.axisLabel = {
+      ...this.option.xAxis.axisLabel,
+      rotate: angle,
+    };
+    return this;
+  }
+
+  setTooltip(config = {}) {
+    this.option.tooltip = {
+      ...this.option.tooltip,
+      ...config,
+    };
+    return this;
+  }
   build() {
     return this.option;
   }
