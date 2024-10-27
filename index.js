@@ -4,10 +4,18 @@ const app = express()
 const connectDb = require("./app/config/db")
 const router = require("./app/router/index")
 const cors = require("cors")
+const cookieParser = require('cookie-parser');
 const errorHandleMiddlware = require("./app/middleware/ErrorHandler")
 connectDb()
 
-app.use(cors())
+app.use(cookieParser())
+
+const corsOptions = {
+    origin: 'http://localhost:5173', // Replace with your React app's URL
+    credentials: true, // Enable sending cookies and authorization headers
+};
+
+app.use(cors(corsOptions));
 app.use(express.json())
 app.use('/uploads',express.static('uploads'))
 router(app)
