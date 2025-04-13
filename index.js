@@ -11,7 +11,7 @@ connectDb()
 app.use(cookieParser())
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Replace with your React app's URL
+    origin: process.env.CLIENT_URL, // Replace with your React app's URL
     credentials: true, // Enable sending cookies and authorization headers
 };
 
