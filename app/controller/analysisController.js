@@ -51,8 +51,8 @@ const createChart = async (req, res, next) => {
     const attributeY = req.body.attributeY;
     const startRange = req.body.start
     const endRange = req.body.end
-    const dataAnalysis = new DataAnalysis(data);
-    const chart = dataAnalysis.generateChart(
+    const dataAnalysis = new DataAnalysis(data,req.cookies.session_id);
+    const chart = await dataAnalysis.generateChart(
       chartType,
       attributeX,
       attributeY,
@@ -116,7 +116,8 @@ const streamData = async (req, res, next) => {
     const attributeX = req.query.attributeX;
     const attributeY = req.query.attributeY;
 
-    const dataAnalysis = new DataAnalysis(data);
+    console.log("session_id",req.cookies.session_id)
+    const dataAnalysis = new DataAnalysis(data,req.cookies.session_id);
     const { seriesData, xAxisData } = dataAnalysis.createDataForBarPlot(
       attributeX,
       attributeY

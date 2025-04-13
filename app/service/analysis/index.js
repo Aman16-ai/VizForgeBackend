@@ -1,7 +1,9 @@
 const ChartBuilder = require("./Chart/ChartBuilder");
+const ChartDataRepository = require("../../repository/chartData")
 class DataAnalysis {
-  constructor(data) {
+  constructor(data,sessionId=null) {
     this.data = data;
+    this.sessionId = sessionId;
   }
 
   createDataForScatterPlot(attributeX, attributeY) {
@@ -68,7 +70,7 @@ class DataAnalysis {
   
     return { seriesData: barPlotSeriesData, xAxisData: barPlotXAxisData };
   }
-  generateChart(
+  async generateChart(
     type,
     attributeX,
     attributeY,
@@ -85,14 +87,28 @@ class DataAnalysis {
       seriesData = this.createDataForScatterPlot(attributeX, attributeY);
       chartBuilder.setSeriesData(seriesData);
     } else if (type === "bar") {
-      const { seriesData, xAxisData } = this.createDataForBarPlot(
-        attributeX,
-        attributeY,
-        aggregationX,
-        aggregationY,
-        start,
-        end
-      );
+
+
+
+      // const { seriesData, xAxisData } = this.createDataForBarPlot(
+      //   attributeX,
+      //   attributeY,
+      //   aggregationX,
+      //   aggregationY,
+      //   start,
+      //   end
+      // );
+      const payload = { 
+        "sessionId":this.sessionId,
+        "x":{"value":attributeX,"type":aggregationX},
+        "y":{"value":attributeY,"type":aggregationY}
+    }
+    console.log('payload',payload)
+      const chartDataRepository = new ChartDataRepository(payload);
+      const response = await chartDataRepository.getChartData()
+      console.log(response)
+      const seriesData = Object.values(response)
+      const xAxisData = Object.keys(response)
       chartBuilder
         .setXAxisType("category")
         .setXAxisData(xAxisData)
