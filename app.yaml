@@ -1,3 +1,13 @@
 runtime: nodejs20
 instance_class: F1
 env: standard
+env_variables:
+  db_url=mongodb+srv://asaxena7531:saxena7531@cluster0.p69wzjz.mongodb.net/
+  FIREBASE_API_KEY=AIzaSyDdHzVgblqv3SqQGDAnZf6B54R8AtMOo-E
+  FIREBASE_AUTH_DOMAIN=vizforge-d2d47.firebaseapp.com
+  FIREBASE_PROJECT_ID=vizforge-d2d47
+  FIREBASE_STORAGE_BUCKET=vizforge-d2d47.appspot.com
+  FIREBASE_MESSAGING_SENDER_ID=115673184365
+  FIREBASE_APP_ID=1:115673184365:web:3ee170ff53e1379d69e764
+  FIREBASE_MEASUREMENT_ID=G-95TBM75JD7
+  CLIENT_URL=http://localhost:5173
